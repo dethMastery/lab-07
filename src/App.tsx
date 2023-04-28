@@ -11,6 +11,7 @@ function App() {
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
+    console.log('Modal is opened.');
   }
 
   function closeModal() {
