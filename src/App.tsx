@@ -92,7 +92,7 @@ function App() {
             </div>
             <div className="w-full text-right pl-4">
               <button
-                onClick={turnModal}
+                onClick={turnAlert}
                 className="bg-[#fe6e61] text-[whitesmoke] p-4 text-l rounded-[10px] duration-300 transition-all hover:scale-75"
               >
                 X
