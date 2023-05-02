@@ -1,37 +1,52 @@
 import "./App.css";
-import React from "react";
-import Modal from "react-modal";
-import { afterOpen, modalSwitch } from "./module/function";
+import React, { useState } from "react";
+import { BaseModal } from "./components/Modal";
 
 function App() {
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [alertOpen, setAlertOpen] = React.useState(false);
-  const [alert, setAlert] = React.useState<string>();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isAlertModalOpen, setAlertModalOpen] = useState(false);
+  const [messageAlertModal, setMessageAlertModal] = useState<string>();
 
-  function turnModal() {
-    modalSwitch(modalOpen, setModalOpen);
-  }
+  const onInputAlertChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessageAlertModal(e.target.value);
+  };
 
-  function turnAlert() {
-    if (alertOpen == true) {
-      setAlert('')
-    }
+  const renderContentModal1 = () => {
+    return (
+      <div className="px-[1rem] text-center">
+        <p>Try give me something to alert?</p>
+        <br />
+        <form>
+          <input
+            type="text"
+            name="alertInputBox"
+            id="alertInputBox"
+            className="p-2 rounded-[1rem] text-center text-[#2e2f2f]"
+            onChange={onInputAlertChange}
+          />
+          <br />
+          <br />
+          <button
+            type="button"
+            onClick={() => {
+              setAlertModalOpen(true);
+            }}
+            className="p-3 rounded-[1rem] bg-[#fe6e61] duration-300 hover:scale-75"
+          >
+            Set Alert
+          </button>
+        </form>
+      </div>
+    );
+  };
 
-    modalSwitch(alertOpen, setAlertOpen);
-  }
-
-  function sendAlert() {
-    modalSwitch(true, setModalOpen);
-    turnAlert();
-  }
-
-  const alertChange = (e: any) => {
-    const value: string = e.target.value;
-    setAlert(value);
-  }
-
-  const modalCard =
-    "absolute translate-x-[-50%] translate-y-[-50%] right-[50%] left-[50%] top-[20%] w-[80%] h-[30%] bg-[#2e2f2f] text-[whitesmoke] rounded-[1rem] p-4 turnOn";
+  const renderContentModal2 = () => {
+    return (
+      <div className="px-[1rem] text-center w-full h-full my-[5rem]">
+        <h1 className="font-bold text-xl">{messageAlertModal}</h1>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -39,7 +54,9 @@ function App() {
         <div className="w-full h-screen flex flex-column justify-center text-center items-center">
           <div>
             <button
-              onClick={turnModal}
+              onClick={() => {
+                setModalOpen(true);
+              }}
               className="p-4 bg-[#2e2f2f] text-[whitesmoke] rounded-[1rem]"
             >
               Open Modal
@@ -47,69 +64,34 @@ function App() {
           </div>
         </div>
 
-        <Modal
-          isOpen={modalOpen}
-          onAfterOpen={afterOpen}
-          onRequestClose={turnModal}
-          contentLabel="Alert Input!"
-          className={modalCard}
+        <BaseModal
+          key={"modal_1"}
+          isOpen={isModalOpen}
+          title={"Modal 1"}
+          onCloseModal={() => {
+            setModalOpen(false);
+          }}
+          onClickPositiveButton={() => {
+            // TODO: handle after clicked button here
+          }}
         >
-          {/* Card Heading */}
-          <div className="flex flex-row">
-            <div className="w-full">
-              <h2 className="text-2xl w-full p-[1rem]">Alert Text!</h2>
-            </div>
-            <div className="w-full text-right pl-4">
-              <button
-                onClick={turnModal}
-                className="bg-[#fe6e61] text-[whitesmoke] p-4 text-l rounded-[10px] duration-300 transition-all hover:scale-75"
-              >
-                X
-              </button>
-            </div>
-          </div>
+          {renderContentModal1()}
+        </BaseModal>
 
-          <div className="px-[1rem] text-center">
-            <p>Try give me something to alert?</p>
-            <br />
-            <form>
-              <input type="text" name="alertInputBox" id="alertInputBox" className="p-2 rounded-[1rem] text-center text-[#2e2f2f]" onChange={alertChange} />
-              <br /><br />
-              <button onClick={sendAlert} className="p-3 rounded-[1rem] bg-[#fe6e61] duration-300 hover:scale-75">
-                Set Alert
-              </button>
-            </form>
-          </div>
-        </Modal>
-
-        <Modal
-          isOpen={alertOpen}
-          onAfterOpen={afterOpen}
-          onRequestClose={turnAlert}
-          contentLabel="Alert!"
-          className={modalCard}
+        // TOD: create a new component file
+        <BaseModal
+          key={"modal_2"}
+          isOpen={isAlertModalOpen}
+          title="Modal 2"
+          onCloseModal={() => {
+            setAlertModalOpen(false);
+          }}
+          onClickPositiveButton={() => {
+            // TODO: handle after clicked button here
+          }}
         >
-          {/* Modal Header */}
-          <div className="flex flex-row">
-            <div className="w-full">
-              <h2 className="text-2xl w-full p-[1rem]">Alert Text!</h2>
-            </div>
-            <div className="w-full text-right pl-4">
-              <button
-                onClick={turnAlert}
-                className="bg-[#fe6e61] text-[whitesmoke] p-4 text-l rounded-[10px] duration-300 transition-all hover:scale-75"
-              >
-                X
-              </button>
-            </div>
-          </div>
-
-          <div className="px-[1rem] text-center w-full h-full my-[5rem]">
-            <h1 className="font-bold text-xl">
-              {alert}
-            </h1>
-          </div>
-        </Modal>
+          {renderContentModal2()}
+        </BaseModal>
       </div>
     </>
   );
