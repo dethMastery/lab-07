@@ -25,7 +25,7 @@ function App() {
     turnAlert();
   }
 
-  const alertChange = (e: any) => {
+  const alertChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
     setAlert(value);
   }
