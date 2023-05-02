@@ -21,6 +21,11 @@ function App() {
     turnAlert();
   }
 
+  const alertChange = (e: any) => {
+    const value: string = e.target.value;
+    setAlert(value);
+  }
+
   const modalCard =
     "absolute translate-x-[-50%] translate-y-[-50%] right-[50%] left-[50%] top-[20%] w-[80%] h-[30%] bg-[#2e2f2f] text-[whitesmoke] rounded-[1rem] p-4 turnOn";
 
@@ -37,6 +42,7 @@ function App() {
             </button>
           </div>
         </div>
+
         <Modal
           isOpen={modalOpen}
           onAfterOpen={afterOpen}
@@ -63,7 +69,7 @@ function App() {
             <p>Try give me something to alert?</p>
             <br />
             <form>
-              <input type="text" name="alertInputBox" id="alertInputBox" className="p-2 rounded-[1rem] text-center text-[#2e2f2f]" />
+              <input type="text" name="alertInputBox" id="alertInputBox" className="p-2 rounded-[1rem] text-center text-[#2e2f2f]" onChange={alertChange} />
               <br /><br />
               <button onClick={sendAlert} className="p-3 rounded-[1rem] bg-[#fe6e61] duration-300 hover:scale-75">
                 Set Alert
@@ -94,7 +100,7 @@ function App() {
             </div>
           </div>
 
-          <div className="px-[1rem] text-center">
+          <div className="px-[1rem] text-center w-full h-full my-[5rem]">
             <h1 className="font-bold text-xl">
               {alert}
             </h1>
