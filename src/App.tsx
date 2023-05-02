@@ -13,6 +13,10 @@ function App() {
   }
 
   function turnAlert() {
+    if (alertOpen == true) {
+      setAlert('')
+    }
+
     modalSwitch(alertOpen, setAlertOpen);
   }
 
